@@ -1,0 +1,111 @@
+<nav class="navbar navbar-default">
+<div class="container-fluid">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Naca Airfoil Generator</a>
+  </div>
+</div><!--/.container-fluid -->
+</nav>
+<div class="row">
+	<div class="col-md-3">
+		<div class="panel panel-primary" >
+            <div class="panel-heading">
+                <div class="panel-title">Naca Airfoil Generator</div>
+            </div>     
+
+            <div class="panel-body" >
+            	<form>
+				  <div class="form-group">
+				    <label for="exampleInputEmail1">Naca 4 digits code</label>
+				    <input ng-model="naca" type="string" class="form-control" placeholder="2412, 0020, 6402...">
+				    <i class="help-block">*** Only 4 digits</i>
+				  </div>
+				  <div class="form-group">
+				    <label for="exampleInputPassword1">Number of points per camber</label>
+				    <input ng-model="numberOfPoints" type="number" class="form-control" placeholder="Per each camber">
+				    <i class="help-block">*** Min: 50, Max: 500</i>
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox" ng-model="cosineSpacing"> Cosine spacing
+				    </label>
+				  </div>
+				  <div class="checkbox">
+				    <label>
+				      <input type="checkbox" ng-model="closedTrailingEdge"> Closed trailing edge
+				    </label>
+				  </div>
+				  <button type="button" ng-click="plotAirfoil();" class="btn btn-success btn-block">Submit</button>
+				  <i class="help-block">Click and count 1,2,3!</i>
+				  <hr>
+				  <div class="form-group">
+                        <div class="col-md-12 control">
+                            <div style="font-size:85%" >
+                              	An assignment of 
+                            <a href="" ng-click="showInfo();">
+                                Do Cong Bang
+                            </a>
+                            and 
+                             <a href="https://www.facebook.com/bui.vanthanh.92">
+                                Bui Van Thanh
+                            </a>
+                            
+                            </div>
+                        </div>
+                    </div>   
+				</form>
+            </div>                     
+        </div> 
+	</div>
+	<div class="col-md-9">
+		<div class="progress" ng-show="calculating">
+		  <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar"
+		  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+		    Calculating...
+		  </div>
+		</div>
+		<div >
+			<div class="btn-group">
+	          <a class="dropdown-toggle btn btn-danger btn-sm" data-toggle="dropdown" href="">
+	              <i class="glyphicon glyphicon-floppy-save"></i>
+	              Download dat file
+	              <b class="caret"></b>
+	          </a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a tabindex="-1" href="" ng-click="exportTable('json');">Json</a></li>
+	            <li><a tabindex="-1" href="" ng-click="exportTable('xml');">Xml</a></li>
+	            <li><a tabindex="-1" href="" ng-click="exportTable('sql');">Sql</a></li>
+	            <li><a tabindex="-1" href="" ng-click="exportTable('csv');">Csv</a></li>
+	            <li><a tabindex="-1" href="" ng-click="exportTable('txt');">Txt</a></li>
+	            <li><a tabindex="-1" href="" ng-click="exportTable('excel');">Excel</a></li>
+	          </ul>
+	        </div>
+			<c3chart bindto-id="chart" chart-data="datapoints" chart-columns="datacolumns" chart-x="datax">
+				<chart-axis>
+			        <chart-axis-x show="false"></chart-axis-x>
+			        <chart-axis-y show="false"></chart-axis-y>
+			    </chart-axis>
+			</c3chart>
+
+			<table id="airfoil-dat-export" class="table table-striped admin-table-export">
+                <tbody>
+                	<thead>			
+						<tr class='warning'>
+							<th>Naca {{naca}}</th>
+						</tr>
+					</thead>
+                  <tr ng-repeat="point in points" >
+                    <td>{{point.x}}</td>
+                    <td>{{point.y}}</td>                  
+                  </tr>              
+                </tbody>
+              </table>
+		</div>
+		
+	</div>
+</div>
